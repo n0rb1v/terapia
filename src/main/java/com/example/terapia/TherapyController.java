@@ -47,4 +47,10 @@ public class TherapyController {
         therapyService.removePerson(command,id);
     }
 
+    @PutMapping("/{id}/players")
+    @Operation(summary = "update therapy with person")
+    public TherapyDTO updateTherapy(@PathVariable("id") long id, @Valid @RequestBody UpdateWithExistingPersonCommand command){
+        return therapyService.updateTherapy(command,id);
+    }
+
 }

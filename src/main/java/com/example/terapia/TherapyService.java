@@ -55,4 +55,14 @@ public class TherapyService {
         therapy.removePerson(person);
 
     }
+    @Transactional
+    public TherapyDTO updateTherapy(UpdateWithExistingPersonCommand command, long id) {
+        Therapy therapy = therapyRepository.findById(id).orElseThrow(() -> new TherapyNotFoundException());
+        Person person = personRepository.findById(command.getId()).orElseThrow(() -> new PersonNotFoundException());
+        if (therapy.getPersons().contains(person)) {
+            throw new IllegalPersonStateException();
+        }
+        therapy.addPerson(person);
+        return modelMapper.map(therapy, TherapyDTO.class);
+    }
 }
